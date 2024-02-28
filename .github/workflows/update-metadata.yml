@@ -1,45 +1,59 @@
-name: Update Metadata
+# name: Update Metadata
 
-on:
-  schedule:
-    # Runs every 30 minutes
-    - cron: '*/30 * * * *'
-  push:
-  workflow_dispatch:
-
-
-
-jobs:
-  update-badge:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@main
-      with:
-        token: ${{ secrets.README }}
+# on:
+#   schedule:
+#     # Runs every 30 minutes
+#     - cron: '*/30 * * * *'
+#   push:
+#   workflow_dispatch:
 
 
-    # - name: Fetch metadata count
-    #   id: fetch-metadata
-    #   run: |
-    #     API_RESPONSE=$(curl -s 'https://api.zed.dev/extensions?filter=The%20Dark%20Side')
-    #     DOWNLOAD_COUNT=$(echo "$API_RESPONSE" | jq -r '.data[0].download_count')
-    #     VERSION=$(echo "$API_RESPONSE" | jq -r '.data[0].version')
-    #     echo "download_count=$DOWNLOAD_COUNT" >> $GITHUB_OUTPUT
-    #     echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+# jobs:
+#   update-badge:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout repository
+#       uses: actions/checkout@main
+#       with:
+#         token: ${{ secrets.README }}
+
+
+#     - name: Fetch metadata count
+#       id: fetch-metadata
+#       run: |
+#         API_RESPONSE=$(curl -s 'https://api.zed.dev/extensions?filter=The%20Dark%20Side')
+#         DOWNLOAD_COUNT=$(echo "$API_RESPONSE" | jq -r '.data[0].download_count')
+#         VERSION=$(echo "$API_RESPONSE" | jq -r '.data[0].version')
+#         echo "download_count=$DOWNLOAD_COUNT" >> $GITHUB_OUTPUT
+#         echo "version=$VERSION" >> $GITHUB_OUTPUT
         
 
-    - name: Update README.md with download count
-      run: |
-        BUILD_FOR_ZED_URL="https://img.shields.io/badge/Zed-8A2BE2?style=for-the-badge&label=Built%20For&color=e5c07b&labelColor=363a4f"
-        sed -i "/<!-- BADGES_START -->/,/<!-- BADGES_END -->/c\<!-- BADGES_START -->\n![Build Status]($BUILD_FOR_ZED_URL)\n<!-- BADGES_END -->" README.md
+#     - name: Update README.md with download count
+#       run: |
+#         DOWNLOAD_COUNT=${{ steps.fetch-metadata.outputs.download_count }}
+#         VERSION=${{ steps.fetch-metadata.outputs.version }}
+#         if [ "$DOWNLOAD_COUNT" -ge 1000000 ]; then
+#             FORMATTED_DOWNLOAD_COUNT=$(echo "scale=1; $DOWNLOAD_COUNT/1000000" | bc)M
+#         elif [ "$DOWNLOAD_COUNT" -ge 1000 ]; then
+#             FORMATTED_DOWNLOAD_COUNT=$(echo "scale=1; $DOWNLOAD_COUNT/1000" | bc)K
+#         else
+#             FORMATTED_DOWNLOAD_COUNT=$DOWNLOAD_COUNT
+#         fi
+#         BUILD_FOR_ZED_URL="https://img.shields.io/badge/Zed-8A2BE2?style=for-the-badge&label=Built%20For&color=e5c07b&labelColor=363a4f"
+#         VERSION_URL="https://img.shields.io/badge/version-$VERSION-8A2BE2?style=for-the-badge&label=Version&labelColor=363a4f&color=9a77cf"
+#         DOWNLOAD_COUNT_URL="https://img.shields.io/badge/downloads-$FORMATTED_DOWNLOAD_COUNT-df881d?style=for-the-badge&label=Downloads&labelColor=363a4f&color=df881d"
+#         echo "Badge URL: $DOWNLOAD_COUNT_URL"
+#         echo "Version URL: $VERSION_URL"
+#         echo "Build for Zed URL: $BUILD_FOR_ZED_URL"
+#         sed -i "/<!-- BADGES_START -->/,/<!-- BADGES_END -->/c\<!-- BADGES_START -->\n![Build Status]($BUILD_FOR_ZED_URL) &nbsp;&nbsp; ![Downloads Badge]($DOWNLOAD_COUNT_URL) &nbsp;&nbsp; ![Version Badge]($VERSION_URL)\n<!-- BADGES_END -->" README.md
 
 
-    - name: Commit and push if changed
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add README.md
-        git commit -m "Update readme metadata" -a || echo "No changes to commit"
-        git push
+#     - name: Commit and push if changed
+#       run: |
+#         git config --local user.email "action@github.com"
+#         git config --local user.name "GitHub Action"
+#         git add README.md
+#         git commit -m "Update readme metadata" -a || echo "No changes to commit"
+#         git push
