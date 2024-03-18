@@ -16,7 +16,7 @@ Syntax highlighting for Dart in [Zed](https://github.com/zed-industries/zed).
 ### Test locally
 
 - Clone this repo: `git clone https://github.com/Imgkl/Dart-Zed dart`
-- Clone the [tree-sitter-darrt](https://github.com/UserNobody14/tree-sitter-dart) repo: `https://github.com/UserNobody14/tree-sitter-dart`
+- Clone the [tree-sitter-dart](https://github.com/UserNobody14/tree-sitter-dart) repo: `https://github.com/UserNobody14/tree-sitter-dart`
 - CD into the repo: `cd tree-sitter-dart`
 - Build the WASM: `tree-sitter build-wasm` (might require docker-engine running)
 - Rename the WASM file to `dart.wasm`
